@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ChallengePoint.Application\ChallengePoint.Application.csproj" />
+    <ProjectReference Include="..\ChallengePoint.Domain\ChallengePoint.Domain.csproj" />
+    <ProjectReference Include="..\ChallengePoint.Infra.Data\ChallengePoint.Infra.Data.csproj" />
+  </ItemGroup>
+
+</Project>

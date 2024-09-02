@@ -1,0 +1,6 @@
+@ChallengePoint_HostAddress = http://localhost:5207
+
+GET {{ChallengePoint_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
