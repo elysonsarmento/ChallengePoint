@@ -1,6 +1,5 @@
-using System;
-using Xunit;
 using ChallengePoint.Exceptions;
+using Xunit;
 
 namespace ChallengePoint.Tests.Exceptions
 {

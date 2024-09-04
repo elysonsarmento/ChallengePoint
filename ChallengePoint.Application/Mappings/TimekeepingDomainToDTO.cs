@@ -8,8 +8,8 @@ namespace ChallengePoint.Application.Mapper
     {
         public TimekeepingDomainToDTO()
         {
-            CreateMap<TimekeepingModel, TimekeepingDTO>(); 
-            CreateMap<TimekeepingDTO, TimekeepingModel>(); 
+            CreateMap<TimekeepingModel, TimekeepingDTO>();
+            CreateMap<TimekeepingDTO, TimekeepingModel>();
         }
     }
 }
