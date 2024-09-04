@@ -9,5 +9,8 @@
         public DateTime? ServerTimestampIn { get; set; }
         public DateTime? ServerTimestampOut { get; set; }
         public int CollaboratorId { get; set; }
+
+        public string? Enrollment { get; set; }
+        public string? Name { get; set; }
     }
 }
