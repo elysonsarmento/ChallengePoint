@@ -33,7 +33,7 @@ namespace ChallengePoint.Controllers
 
                 if (allCollaborators == null || !allCollaborators.Any())
                 {
-                    return NotFound("No collaborators found.");
+                    return Ok(SimplePagination<CollaboratorDto>.Create(new List<CollaboratorDto>(), pageNumber, pageQuantity));
                 }
 
                 var collaboratorsDTO = _mapper.Map<IEnumerable<CollaboratorDto>>(allCollaborators);
@@ -89,7 +89,7 @@ namespace ChallengePoint.Controllers
                 // Verificar se já existe um colaborador com a mesma matrícula
                 if (await _collaboratorRepository.ExistsByEnrollmentAsync(collaborator.Enrollment))
                 {
-                    return BadRequest("Já existe um colaborador com essa matrícula.");
+                    return BadRequest("A collaborator with this enrollment already exists.");
                 }
 
                 CollaboratorModel _collaborator = new() { Name = collaborator.Name, Position = collaborator.Position, Salary = collaborator.Salary, Enrollment = collaborator.Enrollment };
@@ -128,7 +128,7 @@ namespace ChallengePoint.Controllers
                 if (existingCollaborator.Enrollment != collaborator.Enrollment &&
                     await _collaboratorRepository.ExistsByEnrollmentAsync(collaborator.Enrollment))
                 {
-                    return BadRequest("Já existe um colaborador com essa matrícula.");
+                    return BadRequest("A collaborator with this enrollment already exists.");
                 }
 
                 var _collaborator = new CollaboratorModel { Id = id, Name = collaborator.Name, Position = collaborator.Position, Salary = collaborator.Salary, Enrollment = collaborator.Enrollment };
