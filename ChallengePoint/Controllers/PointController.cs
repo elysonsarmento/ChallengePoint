@@ -19,6 +19,10 @@ namespace ChallengePoint.Controllers
         private readonly IMapper _mapper = mapper;
 
         [HttpPost("clockin")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ClockIn([FromBody] ClockInViewModel clockIn)
         {
             try
@@ -100,6 +104,10 @@ namespace ChallengePoint.Controllers
         }
 
         [HttpPost("clockout")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ClockOut([FromBody] ClockOutViewModel clockOut)
         {
             try
@@ -181,18 +189,39 @@ namespace ChallengePoint.Controllers
         }
 
         [HttpGet("list")]
-        public async Task<IActionResult> ListAll()
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> ListAll([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10, [FromQuery] int? month = null, [FromQuery] int? year = null)
         {
             try
             {
-                var timekeepingRecords = await _pointRepository.GetAllPointsAsync();
+                var timekeepingRecords = await _pointRepository.GetAllPointsAsync(pageNumber, pageSize);
 
                 if (timekeepingRecords == null || !timekeepingRecords.Any())
                 {
                     return NotFound("No timekeeping records found.");
                 }
 
+                if (month.HasValue && year.HasValue)
+                {
+                    timekeepingRecords = timekeepingRecords.Where(record =>
+                        (record.ClockIn.HasValue && record.ClockIn.Value.Month == month.Value && record.ClockIn.Value.Year == year.Value) ||
+                        (record.ClockOut.HasValue && record.ClockOut.Value.Month == month.Value && record.ClockOut.Value.Year == year.Value));
+                }
+
                 var timekeepingDtos = _mapper.Map<IEnumerable<TimekeepingDTO>>(timekeepingRecords);
+
+                foreach (var dto in timekeepingDtos)
+                {
+                    var collaborator = await _collaboratorRepository.GetByIdAsync(dto.CollaboratorId);
+                    if (collaborator != null)
+                    {
+                        dto.Enrollment = collaborator.Enrollment;
+                        dto.Name = collaborator.Name;
+                    }
+                }
+
                 return Ok(timekeepingDtos);
             }
             catch (Exception ex)
