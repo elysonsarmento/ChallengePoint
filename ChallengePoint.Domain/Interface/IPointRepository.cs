@@ -6,7 +6,7 @@ namespace ChallengePoint.Domain.Interface
     {
         Task AddPointAsync(TimekeepingModel timekeeping);
 
-        Task<IEnumerable<TimekeepingModel>> GetAllPointsAsync();
+        Task<IEnumerable<TimekeepingModel>> GetAllPointsAsync(int pageNumber, int pageSize, int? month = null, int? year = null);
 
         Task<TimekeepingModel?> GetClockInByDateAsync(int collaboratorId, DateTime date);
 
