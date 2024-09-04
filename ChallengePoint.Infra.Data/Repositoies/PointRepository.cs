@@ -15,9 +15,19 @@ namespace ChallengePoint.Infrastructure.Repositories
             await _appDbContext.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<TimekeepingModel>> GetAllPointsAsync()
+        public async Task<IEnumerable<TimekeepingModel>> GetAllPointsAsync(int pageNumber, int pageSize, int? month = null, int? year = null)
         {
-            return await _appDbContext.Set<TimekeepingModel>().ToListAsync();
+            var query = _appDbContext.Set<TimekeepingModel>().AsQueryable();
+
+            if (month.HasValue && year.HasValue)
+            {
+                query = query.Where(t => t.ClockIn.HasValue && t.ClockIn.Value.Month == month.Value && t.ClockIn.Value.Year == year.Value);
+            }
+
+            return await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
         }
 
         public async Task<TimekeepingModel?> GetClockInByDateAsync(int collaboratorId, DateTime date)
@@ -51,7 +61,7 @@ namespace ChallengePoint.Infrastructure.Repositories
 
         public async Task UpdatePointAsync(TimekeepingModel timekeeping)
         {
-            _appDbContext.Entry(timekeeping).State = EntityState.Modified; 
+            _appDbContext.Entry(timekeeping).State = EntityState.Modified;
             await _appDbContext.SaveChangesAsync();
         }
     }

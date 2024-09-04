@@ -1,14 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using ChallengePoint.Application.ViewModel;
 using ChallengePoint.Controllers;
-using ChallengePoint.Domain.DTO;
 using ChallengePoint.Domain.Interface;
 using ChallengePoint.Domain.Models;
-using ChallengePoint.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;

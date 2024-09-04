@@ -1,5 +1,5 @@
-using Xunit;
 using ChallengePoint.Utils;
+using Xunit;
 
 namespace ChallengePoint.Tests.Utils
 {

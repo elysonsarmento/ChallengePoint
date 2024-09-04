@@ -4,14 +4,9 @@ using ChallengePoint.Controllers;
 using ChallengePoint.Domain.DTO;
 using ChallengePoint.Domain.Interface;
 using ChallengePoint.Domain.Models;
-using ChallengePoint.Exceptions;
 using ChallengePoint.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace ChallengePoint.Tests.Controllers
